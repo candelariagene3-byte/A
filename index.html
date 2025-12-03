@@ -1,0 +1,476 @@
+<!DOCTYPE <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>URS Morong - College of Education</title>
+
+<style>
+  :root
+  {
+    --blue-900:#002b5c; /* deep */
+    --blue-700:#003a85;
+    --blue-500:#1e63c9;
+    --white:#ffffff;
+    --muted:#6b7a90;
+    --radius:12px;
+    --glass: rgba(255,255,255,0.08);
+    --transition: 300ms cubic-bezier(.2,.9,.3,1);
+  }
+  /* Dark mode vars will be toggled */
+  html[data-theme='dark']
+  {
+    --blue-900:#0b2b4a;
+    --blue-700:#033a6b;
+    --blue-500:#0060c9;
+    --white:#f6f9ff;
+    background:#031223;
+  }
+  *{box-sizing:border-box
+  }
+  body
+  {
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    color:var(--blue-900);
+    background: linear-gradient(180deg, #f4f8ff 0%, #eef6ff 100%);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+
+  /* HEADER */
+  .topbar
+  {
+    background:linear-gradient(90deg,var(--blue-700),var(--blue-500));
+    color:var(--white);
+    padding:12px 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:12px;
+  }
+  .logo img{width:56px;height:56px;border-radius:8px;object-fit:cover;border:2px solid rgba(255,255,255,0.12)}
+  .brand{font-weight:700;font-size:18px}
+  .brand small{display:block;font-weight:500;font-size:12px;opacity:0.95}
+
+  /* NAV - sticky/floating */
+  nav
+  {
+    position:sticky;top:0;z-index:98;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+    border-bottom:1px solid rgba(30,99,201,0.06);
+    padding:8px 22px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  nav .links{display:flex;gap:8px;align-items:center}
+  nav a{color:var(--blue-900);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600}
+  nav a:hover{background:var(--glass);transform:translateY(-2px);transition:var(--transition)}
+
+  .cta{display:flex;gap:10px;align-items:center}
+  .btn{background:var(--blue-700);color:var(--white);padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700;box-shadow:0 6px 18px rgba(30,99,201,0.12)}
+  .btn.ghost{background:transparent;color:var(--blue-700);box-shadow:none;border:1px solid rgba(30,99,201,0.08)}
+
+ 
+ /* HERO with carousel */
+  .hero-wrap{position:relative;overflow:hidden}
+  .hero{
+    min-height:420px;display:flex;align-items:center;justify-content:center;padding:40px 20px; color:darkblue;
+    position:relative;
+  }
+  
+  .hero .content
+  {
+  max-width:1100px;
+  text-align:left;
+  display:flex;gap:24px;
+  align-items:center
+  }
+  .hero .text{flex:1}
+  .hero h1{font-size:34px;margin:0 0 10px}
+  .hero p{margin:0 0 16px;color:navyblue}
+  .hero .hero-actions{display:flex;gap:12px}
+
+  /* Carousel images */
+  .carousel{position:absolute;inset:0;display:block}
+  .carousel img{width:100%;height:100%;object-fit:cover;filter:brightness(0.45) contrast(1.05);}
+  .carousel .slide{position:absolute;inset:0;opacity:0;transition:opacity 600ms ease;}
+  .carousel .slide.active{opacity:1}
+
+  /* small overlay card */
+  .overlay-card{background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));padding:18px;border-radius:14px;backdrop-filter: blur(4px);box-shadow:0 8px 30px rgba(2, 35, 78, 0.12);}
+  .overlay-card h3{margin:0 0 6px}
+  .overlay-card p{margin:0;color:orange(255,255,255,0.9)}
+
+  /* Carousel controls */
+  .controls{position:absolute;left:12px;right:12px;bottom:14px;display:flex;justify-content:space-between;align-items:center}
+  .dots{display:flex;gap:8px}
+  .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,0.35)}
+  .dot.active{background:var(--white)}
+  .arrow{background:rgba(0,0,0,0.35);color:var(--white);border:none;padding:8px;border-radius:8px;cursor:pointer}
+
+  /* MAIN content */
+  .container{max-width:1100px;margin:28px auto;padding:0 18px}
+  h2{color:var(--blue-700);margin:8px 0 16px;border-left:6px solid var(--blue-700);padding-left:12px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{background:var(--white);border-radius:var(--radius);padding:16px;border:1px solid rgba(14,73,140,0.06);box-shadow:0 6px 20px rgba(13,67,138,0.06);}
+  .card img{width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:12px}
+  .card h3{margin:6px 0}
+  .muted{color:var(--muted);font-size:14px}
+
+  /* Org list */
+  .orgs ul{list-style:disc;margin-left:20px}
+
+  /* VMGO section */
+  .vmgo{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .vmgo .box{padding:16px;background:linear-gradient(180deg,#fff,#f7fbff);border-radius:12px}
+
+  /* CONTACTS */
+  .contacts p{margin:6px 0}
+
+  /* Back to top */
+  .backtop{position:fixed;right:18px;bottom:18px;background:var(--blue-700);color:var(--white);border-radius:12px;padding:10px 12px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.18);display:none;z-index:999}
+
+  /* Waves divider */
+  .wave{display:block;width:70%;height:100px;background:linear-gradient(180deg,var(--white),transparent);margin-top:-10px}
+  .wave svg{display:block;width:100%;height:70px}
+
+  /* Footer */
+  footer{background:var(--blue-900);color:var(--white);padding:28px 18px;text-align:center;margin-top:36px}
+
+  /* Responsive tweaks */
+  @media (max-width:880px){
+    .hero .content{flex-direction:column;align-items:flex-start}
+    .vmgo{grid-template-columns:1fr}
+    .hero h1{font-size:26px}
+  }
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity 600ms ease,transform 600ms ease}
+  .reveal.show{opacity:1;transform:none}
+
+  /* Hover effects */
+  .card:hover{transform:translateY(-6px);transition:var(--transition)}
+
+  /* Dark mode adjustments for nav/hero */
+  html[data-theme='dark'] nav{background:linear-gradient(180deg, rgba(3,16,30,0.6), rgba(3,26,45,0.6));border-bottom:1px solid rgba(255,255,255,0.04)}
+  html[data-theme='dark'] .card{background:#021627;color:var(--white);border:1px solid rgba(255,255,255,0.03)}
+  html[data-theme='dark'] .overlay-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))}
+
+</style>
+</head>
+<body>
+
+  <!-- Top brand bar -->
+  <div class="topbar">
+    <div class="logo">
+      <img src="C:\Users\Windows 10\Desktop\html/urs.jpg"  width="50" height="50" alt="URS Logo" />
+      <div class="brand">University of Rizal System<br/><small>Morong Campus — College of Education</small></div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+      <button id="themeToggle" class="btn ghost" title="Toggle dark mode"> Dark</button>
+      <a class="btn" href="#contacts">Contact</a>
+    </div>
+  </div>
+
+  <!-- Floating sticky nav -->
+  <nav>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#dean">Dean</a>
+      <a href="#programs">Programs</a>
+      <a href="#orgs">Organizations</a>
+      <a href="#vision">VMGO</a>
+    </div>
+    <div class="cta">
+      <a class="btn ghost" href="#gallery">Gallery</a>
+      <a class="btn" href="#contacts">Get in Touch</a>
+    </div>
+  </nav>
+
+  <!-- HERO with sliding carousel -->
+  <section class="hero-wrap">
+    <div class="carousel" id="carousel">
+      <div class="slide active"><img src="hero1.jpg" alt="Campus"></div>
+      <div class="slide"><img src="hero2.jpg" alt="Students"></div>
+      <div class="slide"><img src="hero3.jpg" alt="Classroom"></div>
+    </div>
+
+    <div class="hero">
+      <div class="content">
+        <div class="text">
+          <div class="overlay-card reveal" style="max-width:720px">
+            <h1>Shaping Competent, Values-Driven Educators</h1>
+            <p>The College of Education at URS–Morong prepares future teachers through progressive pedagogy, research, and community engagement.</p>
+            <div class="hero-actions">
+              <a class="btn" href="#programs">View Programs</a>
+              <a class="btn ghost" href="#vision">Our VMGO</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="min-width:260px">
+          <div class="overlay-card reveal">
+            <h3>Quick Contact</h3>
+            <p class="muted">Email: coedeanm@urs.edu.ph</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <div>
+          <button class="arrow" id="prev">❮</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="dots" id="dots"></div>
+        </div>
+        <div>
+          <button class="arrow" id="next">❯</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main page -->
+  <main>
+    <section class="container reveal" id="about">
+      <h2>About the College of Education</h2>
+      <p>The College of Education of the University of Rizal System – Morong Campus is dedicated to producing highly skilled and ethically-grounded teachers. We emphasize hands-on pedagogy, community-centered research, and professional development to ensure our graduates are ready for diverse classrooms.</p>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,64 C180,20 360,0 720,32 C1080,64 1260,80 1440,48 L1440 0 L0 0 Z" fill="#ffffff"/></svg>
+    </div>
+
+    <section class="container reveal" id="dean">
+      <h2>Dean</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/jenisus.jpg"  width="50" height="50">
+          <h3>Dr. Jenisus O. Dejarlo</h3>
+          <p class="muted">Dean, College of Education</p>
+        </div>
+        <div class="card">
+          <h3>College Office</h3>
+          <p>Office of the Dean, College of Education of University of Rizal System, Morong Campus.</p>
+          <p class="muted">Office Hours: Mon–Sat, 7:00 AM – 5:00 PM</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container reveal" id="programs">
+      <h2>Offered Programs & Program Heads</h2>
+      <div class="grid">
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/maamconcep.jpg"  width="50" height="50">
+          <h3>BEED — Content course</h3>
+          <p><strong>Program Head:</strong> Dr. Concepcion C. Peñaranda</p>
+          <p class="muted">Organization: OFEM (Organization of Future Elementary Mentors)</p>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/maammagda.jpg"  width="50" height="50">
+          <h3>BSE — English</h3>
+          <p><strong>Program Head:</strong> Dr. Evelyn P. Magdalena</p>
+          <p class="muted">Sub-Organization: EEE (English Enthusiasts Educators)</p>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/maammagda.jpg"  width="50" height="50">
+          <h3>BSE — Science</h3>
+          <p><strong>Program Head:</strong>  Dr. Evelyn P. Magdalena</p>
+          <p class="muted">Organization: SEES (Science Enthusiasts and Environmentalists Society)</p>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/maammagda.jpg"  width="50" height="50">
+          <h3>BSE — Mathematics</h3>
+          <p><strong>Program Head:</strong>  Dr. Evelyn P. Magdalena</p>
+          <p class="muted">Organization: EMC (Educators' Mathematics Club)</p>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/sirmark.jpg"  width="50" height="50">
+          <h3>BTLED — Home Economics</h3>
+          <p><strong>Program Head:</strong> Prof. Mark Lee V. Cheungkock</p>
+          <p class="muted">Sub-Organization: GUTs (Group of United Technologists)</p>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/sirmark.jpg"  width="50" height="50">
+          <h3>BTLED — ICT</h3>
+          <p><strong>Program Head:</strong> Prof. Mark Lee V. Cheungkock</p>
+          <p class="muted">Organization: GUTs (Group of United Technologists)</p>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/sirmark.jpg"  width="50" height="50">
+          <h3>BTLED — Industrial Arts</h3>
+          <p><strong>Program Head:</strong> Prof. Mark Lee V. Cheungkock</p>
+          <p class="muted">Organization: GUTs (Group of United Technologists)</p>
+        </div>
+
+        <div class="card">
+          <img src="C:\Users\Windows 10\Desktop\html/sirjef.jpg"  width="50" height="50">
+          <h3>BTVTED — Drafting Technology</h3>
+          <p><strong>Program Head:</strong> Prof. Jefone B. Sanico</p>
+          <p class="muted">Organization: GUTs (Group of United Technologists)</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="container reveal" id="orgs">
+      <h2>Mother Organization & Sub-Orgs</h2>
+      <div class="card orgs">
+        <h3>Mother Organization: LBC (Light Bringers Club)</h3>
+        <p>The Mother Organization of the College of Education at the University of Rizal System, Morong Campus</p>
+        <h4>Sub-Organizations</h4>
+        <ul>
+          <li>OFEM (Organization of Future Elementary Mentors)</li>
+          <li>EEE (English Enthusiasts Educators)</li>
+          <li>SEES (Sciece Enthusiasts and Environmentalists Society)</li>
+          <li>EMC (Educators' Mathematics Club)</li>
+          <li>ESRO (Education Student Research Organization)</li>
+		  <li>The Flames</li>
+        </ul>
+      </div>
+    </section>
+    <section class="container reveal" id="vision">
+      <h2>Vision, Mission, Quality Policy & Core Values</h2>
+      <div class="vmgo">
+        <div class="box">
+          <h3>Vision</h3>
+          <p>The leading University in human resource development knowledge and technology generation and environmental stewardship.</p>
+        </div>
+        <div class="box">
+          <h3>Mission</h3>
+          <p>The University of Rizal System is committed to nurture and produce upright and competent graduates and empower community through relevant and sustainable higher professional and technical instruction, research ,extension and production services.</p>
+        </div>
+        <div class="box">
+          <h3>Quality Policy</h3>
+          <p>The University of Rizal System commits to deliver excellent products and services to ensure stakeholders' satisfaction in instruction, research, extension, production and dynamic administrative support and to continiously improve its Quality Management System processes to satisfy all applicable requirements. </p>
+        </div>
+        <div class="box">
+          <h3>Core Values</h3>
+          <ul>
+            <li>Responsiveness</li>
+            <li>Integriy</li>
+            <li>Service</li>
+            <li>Excellence</li>
+            <li>Social Responsibility</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="container reveal" id="gallery">
+      <h2>Gallery</h2>
+      <div class="grid">
+        <div class="card"><img src="C:\Users\Windows 10\Desktop\html/teachersday.jpg"  width="50" height="50"><h3>Teachers' Day Celebration</h3></div>
+        <div class="card"><img src="C:\Users\Windows 10\Desktop\html/pinning.jpg"  width="50" height="50"><<h3>Student Teacher Pinning Ceremony</h3></div>
+        <div class="card"><img src="C:\Users\Windows 10\Desktop\html/offcampus.jpg"  width="50" height="50"><h3>Students Off-Campus Activity</h3></div>
+        <div class="card"><img src="C:\Users\Windows 10\Desktop\html/MMCOE.jpg"  width="50" height="50"><h3>Mr. and Ms. College of Education</h3></div>
+      </div>
+    </section>
+
+    <section class="container reveal contacts" id="contacts">
+      <h2>Contacts & Information</h2>
+      <p><strong>Address:</strong> University of Rizal System – Morong Campus, Morong, Rizal</p>
+      <p><strong>Email:</strong> coedeanm@urs.edu.ph</p>
+      <p><strong>Phone:</strong> (02) 8659-9955</p>
+      <p><strong>Office Hours:</strong> Monday – Saturday, 7:00 AM – 5:00 PM</p>
+
+      <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn" href="mailto:coeadeanm@urs.edu.ph">Email Us</a>
+        <a class="btn ghost" href="#">Visit Campus</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div style="max-width:1100px;margin:0 auto;padding:0 18px;display:flex;flex-direction:column;gap:8px;align-items:center">
+      <div>© <strong>University of Rizal System – Morong Campus</strong> · College of Education · 2025</div>
+      <div class="muted">Designed with  by: Geneviere and Avel Khan.</div>
+    </div>
+  </footer>
+
+  <!-- Back to top button -->
+  <button id="backtop" class="backtop" aria-label="Back to top"> Top</button>
+
+<script>
+  // ---------- Carousel ----------
+  (function(){
+    const slides = Array.from(document.querySelectorAll('.carousel .slide'));
+    const dotsWrap = document.getElementById('dots');
+    let idx = 0, timer=null;
+
+    function renderDots(){
+      slides.forEach((s,i)=>{
+        const d = document.createElement('div'); d.className='dot'+(i===0? ' active':''); d.dataset.i=i; dotsWrap.appendChild(d);
+      });
+    }
+    function show(i){
+      slides.forEach((s,si)=> s.classList.toggle('active', si===i));
+      document.querySelectorAll('.dot').forEach((d,di)=> d.classList.toggle('active', di===i));
+      idx = i;
+    }
+    function next(){ show((idx+1)%slides.length); }
+    function start(){ timer = setInterval(next, 4500); }
+    function stop(){ clearInterval(timer); timer=null; }
+
+    renderDots(); start();
+    document.getElementById('prev').addEventListener('click', ()=>{ stop(); show((idx-1+slides.length)%slides.length); start(); });
+    document.getElementById('next').addEventListener('click', ()=>{ stop(); show((idx+1)%slides.length); start(); });
+    dotsWrap.addEventListener('click', (e)=>{ if(e.target.classList.contains('dot')){ stop(); show(Number(e.target.dataset.i)); start(); }});
+
+    // pause on hover
+    document.querySelector('.hero-wrap').addEventListener('mouseenter', stop);
+    document.querySelector('.hero-wrap').addEventListener('mouseleave', start);
+})();
+
+  // ---------- Smooth scroll for nav links ----------
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', function(e){
+      const href = this.getAttribute('href');
+      if(href === '#') return;
+      const el = document.querySelector(href);
+      if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+
+  // ---------- Reveal on scroll ----------
+  const ro = new IntersectionObserver((entries)=>{
+    entries.forEach(ent=>{
+      if(ent.isIntersecting){ ent.target.classList.add('show'); ro.unobserve(ent.target); }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+  // ---------- Back to top ----------
+  const back = document.getElementById('backtop');
+  window.addEventListener('scroll', ()=>{
+    back.style.display = (window.scrollY>400)?'block':'none';
+  });
+  back.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+  // ---------- Theme toggle (dark mode) ----------
+  const themeBtn = document.getElementById('themeToggle');
+  function setTheme(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('urs_theme', t); themeBtn.textContent = (t==='dark')? ' Light':' Dark'; }
+  themeBtn.addEventListener('click', ()=> setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+  const saved = localStorage.getItem('urs_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'); setTheme(saved);
+  // ---------- Small accessibility enhancements ----------
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){ document.activeElement.blur(); }
+  });
+
+</script>
+</body>
+</html>
